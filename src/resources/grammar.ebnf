@@ -1,0 +1,34 @@
+@@grammar::PIN
+#include :: "pin/src/resources/type.ebnf"
+
+@@keyword:: when type
+
+start = expression $ ;
+
+
+expression
+    =
+    | expression '+' term
+    | expression '-' term
+    | term
+    ;
+
+
+term
+    =
+    | term '*' factor
+    | term '/' factor
+    | factor
+    ;
+
+
+
+factor
+    =
+    | '(' expression ')'
+    | number
+    ;
+
+
+identifier = /[a-zA-Zㄱ-ㅣ가-힣_][a-zA-Zㄱ-ㅣ가-힣0-9_]*/ ;
+number = /\d+/ ;

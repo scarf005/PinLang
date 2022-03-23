@@ -1,0 +1,29 @@
+OPERATOR:
+  - PLUS: "+"
+  - MINUS: "-"
+  - MULTIPLY: "*"
+  - DIVIDE: "/"
+  - MODULO: "%"
+  - POWER: "**"
+  - EQUAL: "=="
+  - NOT_EQUAL: "!="
+  - GREATER_THAN: ">"
+  - LESS_THAN: "<"
+  - GREATER_THAN_OR_EQUAL: ">="
+  - LESS_THAN_OR_EQUAL: "<="
+  - AND: "&&"
+  - OR: "||"
+  - NOT: "!"
+
+PUNCTUATION:
+  - PAREN_OPEN: "("
+  - PAREN_CLOSE: ")"
+  - BRACKET_OPEN: "["
+  - BRACKET_CLOSE: "]"
+  - BRACE_OPEN: "{"
+  - BRACE_CLOSE: "}"
+  - ANGLE_OPEN: "<"
+  - ANGLE_CLOSE: ">"
+
+KEYWORD:
+  - WHEN: "when"
