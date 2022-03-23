@@ -1,4 +1,16 @@
-type
+(* type
+    =
+    | 'bool'
+    | 'cstr'
+    | 'unit'
+    ; *)
+
+type_specifier
+    =
+        int_type
+    ;
+
+int_type
     =
     | 'int'
     | 'i8'
@@ -12,7 +24,10 @@ type
     | 'u64'
     | 'f32'
     | 'f64'
-    | 'bool'
-    | 'cstr'
-    | 'unit'
+    ;
+
+# 숫자 정의
+number::Number
+    =
+    /\d+/
     ;

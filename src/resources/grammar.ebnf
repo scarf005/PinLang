@@ -1,31 +1,37 @@
 @@grammar::PIN
-#include :: "pin/src/resources/type.ebnf"
 
-@@keyword:: when type
+# include :: "pin/src/resources/type.ebnf"
 
-start = expression $ ;
+# @@keyword:: when type
 
+start
+    =
+    expression $
+    ;
+
+declaration =
+    identifier
+    ;
 
 expression
     =
-    | expression '+' term
-    | expression '-' term
+    | left:expression op:'+' ~ right:term
+    | left:expression op:'-' ~ right:term
     | term
     ;
 
-
+# 항
 term
     =
-    | term '*' factor
-    | term '/' factor
+    | left:term op:'*' ~ right:factor
+    | left:term op:'/' ~ right:factor
     | factor
     ;
 
-
-
+# 인수
 factor
     =
-    | '(' expression ')'
+    | '(' ~ @:expression ')'
     | number
     ;
 

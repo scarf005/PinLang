@@ -207,7 +207,7 @@ typedef_name = identifier
 declaration =  {declaration_specifier}+ {init_declarator}* ;
 
 init_declarator = declarator
-                    | declarator = initializer
+                    | declarator '=' initializer
 
 initializer = assignment_expression
                 | { initializer_list }
