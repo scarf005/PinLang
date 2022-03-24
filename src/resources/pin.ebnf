@@ -4,8 +4,7 @@
 
 start
     =
-        varExpr
-
+       {stmt}
     ;
 
 type
@@ -14,23 +13,34 @@ type
     | 'uint'| 'u8' | 'u16' | 'u32' | 'u64'
     ;
 
-decl = varDecl | constDecl;
+stmt
+    =
+    | terminator
+    | varStmt
+    | constStmt
+    ;
 
-constDecl = const terminator ;
-const = const_id ":" [type] ":" expr ;
+constStmt = ','.{ const }+ terminator ;
+const = ident:const_id ":" [type:type] ":" expr:expr ;
 
-varExpr = ','.{ var }+ terminator ;
+varStmt = ','.{ var }+ terminator ;
 var = varAsgn | varDecl ;
 varDecl = ident:id ":" type:type ;
 varAsgn = ident:id ":" [type:type] "=" expr:expr ;
 
 # TODO: fix
-expr = id | number;
+expr = id | integer;
 
-number::Number
+integer::int
     =
     /\d+/
     ;
+
+float::float
+    =
+    /\d+\.\d+/
+    ;
+
 
 terminator = '\n' | ';' ;
 

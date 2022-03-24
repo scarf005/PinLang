@@ -21,14 +21,25 @@ def parse_code(code: str):
     print(json.dumps(asjson(ast), indent=2))
 
 
-def test_variable_declaration():
-    codes = [
-        "x:int \n",
-        "x:= 1\n",
-        "x:i32, y:i8 \n",
-    ]  # , "x : i8\n", "X :: 3\n", "X::\n"]
+def parse_codes(codes: list[str]):
     for code in codes:
         parse_code(code)
+
+
+var = """u: u16 = 3
+x: int
+y := 1
+z: i32, y: i8
+"""
+
+const = """X :: 3
+Y :: 4
+Z :: 3, Y :: 4
+"""
+
+
+def test_variable_declaration():
+    parse_codes([var, const])
 
 
 if __name__ == "__main__":
