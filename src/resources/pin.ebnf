@@ -18,19 +18,60 @@ stmt
     | terminator
     | varStmt
     | constStmt
+    | enumStmt
+    | funcStmt
     ;
 
-constStmt = ','.{ const }+ terminator ;
-const = ident:const_id ":" [type:type] ":" expr:expr ;
+# CONSTANTS
+constStmt = ','.{ @:const }+ terminator ;
+const::Const = ident:id ':' [type:type] ':' expr:expr ;
 
-varStmt = ','.{ var }+ terminator ;
-var = varAsgn | varDecl ;
-varDecl = ident:id ":" type:type ;
-varAsgn = ident:id ":" [type:type] "=" expr:expr ;
+# VARIABLES
+varStmt = ','.{ @:var }+ terminator ;
+var::Variable = varAsgn | varDecl ;
+varDecl = ident:id ':' type:type ;
+varAsgn = ident:id ':' [type:type] '=' expr:expr ;
+
+# ENUMS
+enumStmt =
+    @:id '::' 'enum' openScope
+        @:enumEntryList
+     closeScope ;
+
+
+enumEntryList =
+    { a:enumEntry entryDelim }
+    ;
+entryDelim = ',' possible_newlines;
+enumEntry = id ;
+
+# FUNC
+funcStmt = @:id '::' @:funcExpr;
+funcExpr =
+    (argEmpty | @:argList) '->' [@:type] openScope
+        @:{stmt}
+    closeScope
+    ;
+
+argEmpty = '(' ')' ;
+argList = '(' @+:arg {',' @+:arg}* ')' ;
+arg = varDecl ;
+
+# WHEN
+#whenExpr
+#    = 'when' ['(' @:id ')'] openScope
+#        @:whenList
+#     closeScope ;
 
 # TODO: fix
+#codeBlock = openScope @:stmtList closeScope ;
 expr = id | integer;
 
+# SCOPE MANAGEMENT
+openScope = '{' possible_newlines ;
+closeScope = possible_newlines '}' terminator ;
+
+# NUMBERS
 integer::int
     =
     /\d+/
@@ -41,8 +82,7 @@ float::float
     /\d+\.\d+/
     ;
 
-
+possible_newlines = {'\n'} ;
 terminator = '\n' | ';' ;
 
-const_id = /[A-Zㄱ-ㅣ가-힣_][A-Zㄱ-ㅣ가-힣0-9_]*/;
 id = /[a-zA-Zㄱ-ㅣ가-힣_][a-zA-Zㄱ-ㅣ가-힣0-9_]*/;

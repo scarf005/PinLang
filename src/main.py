@@ -21,25 +21,40 @@ def parse_code(code: str):
     print(json.dumps(asjson(ast), indent=2))
 
 
-def parse_codes(codes: list[str]):
-    for code in codes:
-        parse_code(code)
-
-
-var = """u: u16 = 3
+var = """
+u: u16 = 3
 x: int
 y := 1
 z: i32, y: i8
 """
 
-const = """X :: 3
+const = """
+X :: 3
 Y :: 4
 Z :: 3, Y :: 4
 """
 
+enum = """
+IpAddr :: enum {
+    V4,
+    V6,
+}
+"""
+
+func = """
+   spam :: () -> {}
+   egg :: () -> i16 {}
+   mult2 :: (n:i32) -> {}
+   add :: (a:i16, b:i16) -> i16 {}
+"""
+
 
 def test_variable_declaration():
-    parse_codes([var, const])
+    ...
+    # parse_code(var)
+    # parse_code(const)
+    # parse_code(enum)
+    parse_code(func)
 
 
 if __name__ == "__main__":
