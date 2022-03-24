@@ -1,0 +1,38 @@
+@@grammar::Pin
+@@whitespace :: /[ \t\r\f\v]+/
+
+
+start
+    =
+        varExpr
+
+    ;
+
+type
+    =
+    | 'int' | 'i8' | 'i16' | 'i32' | 'i64'
+    | 'uint'| 'u8' | 'u16' | 'u32' | 'u64'
+    ;
+
+decl = varDecl | constDecl;
+
+constDecl = const terminator ;
+const = const_id ":" [type] ":" expr ;
+
+varExpr = ','.{ var }+ terminator ;
+var = varAsgn | varDecl ;
+varDecl = ident:id ":" type:type ;
+varAsgn = ident:id ":" [type:type] "=" expr:expr ;
+
+# TODO: fix
+expr = id | number;
+
+number::Number
+    =
+    /\d+/
+    ;
+
+terminator = '\n' | ';' ;
+
+const_id = /[A-Zㄱ-ㅣ가-힣_][A-Zㄱ-ㅣ가-힣0-9_]*/;
+id = /[a-zA-Zㄱ-ㅣ가-힣_][a-zA-Zㄱ-ㅣ가-힣0-9_]*/;

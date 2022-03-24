@@ -1,19 +1,11 @@
 # Goals
 
-### Mini
-- basics
-  - variables
-  - constants
-  - when
-  - each
-  - array
-- procedures
-- working program
+### Basic
+- [ ] variable && constants declaration
+- [ ] variable assignation
+- [ ] expression
+- [ ] function
 
-### Middle
-- lambdas
-- string formatting
+### Intermediate
 
-### Mega
-- generics
-- memory safety
+### Advanced
