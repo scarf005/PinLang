@@ -12,12 +12,13 @@ expression
     | subtraction
     | term
     ;
-addition
+
+addition::Add
     =
     left:expression op:'+' ~ right:term
     ;
 
-subtraction
+subtraction::Subtract
     =
     left:expression op:'-' ~ right:term
     ;
@@ -31,13 +32,12 @@ term
     ;
 
 
-multiplication
+multiplication::Multiply
     =
     left:term op:'*' ~ right:factor
     ;
 
-
-division
+division::Divide
     =
     left:term '/' ~ right:factor
     ;
@@ -49,9 +49,9 @@ factor
     | number
     ;
 
-number
+number::Number
     =
-    /\d+/
+    value:/\d+/
     ;
 
 newlines = {'\n'};
