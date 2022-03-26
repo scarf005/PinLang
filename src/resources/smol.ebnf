@@ -8,17 +8,38 @@ start
 # 표현식
 expression
     =
-    | left:expression op:'+' ~ right:term
-    | left:expression op:'-' ~ right:term
+    | addition
+    | subtraction
     | term
+    ;
+addition
+    =
+    left:expression op:'+' ~ right:term
+    ;
+
+subtraction
+    =
+    left:expression op:'-' ~ right:term
     ;
 
 # 항
 term
     =
-    | left:term op:'*' ~ right:factor
-    | left:term op:'/' ~ right:factor
+    | multiplication
+    | division
     | factor
+    ;
+
+
+multiplication
+    =
+    left:term op:'*' ~ right:factor
+    ;
+
+
+division
+    =
+    left:term '/' ~ right:factor
     ;
 
 # 인수
