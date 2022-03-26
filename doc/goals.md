@@ -1,11 +1,17 @@
 # Goals
 
+the goal of Pin language is to have a functionality of C, stripped down to bare minimum.
+
 ### Basic
-- [ ] variable && constants declaration
-- [ ] variable assignation
-- [ ] expression
-- [ ] function
+- [ ] functions
+- [ ] constants
+- [ ] variables
+- [ ] enums
+- [ ] structs
 
 ### Intermediate
+- [ ] `use` keyword
+- [ ] namespaces
 
 ### Advanced
+- [ ] closures

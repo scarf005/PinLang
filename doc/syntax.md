@@ -1,34 +1,81 @@
 # Syntax
 
-### Lexical elements and literals
+### declarations
 
-```c
-// A comment
+A variable or const is declared as:
 
-my_integer_variable: int // A comment for documentation
-
-/*
-multi-line comment work too
-*/
+```rust
+foo := 10 // this is an variable of inferred type int
+BAR :: 20 // this is an constant of inferred type int
+spam : i32 = 10 // this is an variable of explicit type i32
+EGG : i32 : 20 // this is an constant of explicit type i32
 ```
 
-### String and character literals
-
 ```c
+int         foo;
+const int   c_bar = 20; // due to norminette name restriction, no capitals
+const i32_t c_spam = 10;
+i32_t       egg;
 
-"A string"
-"안녕 세계"
-'\n' // newline char
-
-"hello".len() // builtin method returns 5
+foo = 10;
+egg = 20;
 ```
 
-```py
-str :: "world"
-fmt"hello {str}"
+note that constant expression is bound via `::` operator.
 
-/*
-string formatting is allowed
-only when its type can be inferred in compile-time
-*/
+A struct:
+
+```rust
+point :: struct {
+  x: i32,
+  y: i32, // "," at the last is optional
+}
+```
+```c
+typedef s_point
+{
+  int x;
+  int y;
+} t_point;
+```
+
+An enum:
+```rust
+result :: enum {
+  OK,
+  FAIL = 3,
+}
+```
+```c
+typedef e_result
+{
+  OK,
+  FAIL = 3,
+} t_result;
+```
+
+### Functions
+```rust
+use core/print
+;
+main :: fn(ac: int, av: string[]) {
+  spam := 10
+  egg :: 20
+
+  print!("{spam = } {egg = }")
+}
+```
+```c
+#include "pin.h"
+#include "stdio.h"
+
+int main(int ac, char *argv[])
+{
+  int       spam;
+  const int egg = 20;
+
+  spam = 10;
+  printf("spam = %d egg = %d", spam, egg);
+  return EXIT_SUCCESS;
+}
 ```
