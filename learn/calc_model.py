@@ -4,7 +4,7 @@ from codegen import PostfixCodeGenerator
 
 
 def parse_and_translate():
-    with open("calc_model.ebnf") as f:
+    with open("pin.ebnf") as f:
         grammar = f.read()
 
     parser = tatsu.compile(grammar, asmodel=True)

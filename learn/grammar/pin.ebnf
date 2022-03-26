@@ -1,8 +1,8 @@
-@@grammar::CALC
+@@grammar::PIN
 
 start
     =
-    expression $
+    {@:expression END} $
     ;
 
 # 표현식
@@ -54,5 +54,5 @@ number::Number
     value:/\d+/
     ;
 
-newlines = {'\n'};
-terminate = '\n' | ';' ;
+NL = /\n+/ ;
+END = /\n/ ;

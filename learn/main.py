@@ -14,20 +14,13 @@ def pprint_color(obj: Any):
     )
 
 
-GRAMMAR = Path("src/resources/smol.ebnf").read_text()
-# GRAMMAR = Path("src/resources/pin.ebnf").read_text()
 import json
 
 import tatsu
 from tatsu import parse
 from tatsu.util import asjson
 
-# model = tatsu.compile(GRAMMAR)
-# code = tatsu.to_python_sourcecode(GRAMMAR)
-# print(code)
-# code = "안녕"
-# code = "3 + 5 * ( 10 - 20 )"
-
+GRAMMAR = Path("grammar/pin.ebnf").read_text()
 parser = tatsu.compile(GRAMMAR)
 
 
@@ -68,6 +61,7 @@ func = """
 expr = """\
 3 + 5 * ( 10 - 20 )
 (23)
+12
 86 + 84 + 87 / (96 - 46) / 59
 ((((49)))) + ((46))
 76 + 18 + 4 - (98) - 7 / 15
@@ -86,8 +80,9 @@ def test_variable_declaration():
     # parse_code(const)
     # parse_code(enum)
     # parse_code(func)
-    for line in expr.splitlines():
-        parse_code(line)
+    parse_code(expr)
+    # for line in expr.splitlines():
+    #     parse_code(line + "\n")
 
 
 if __name__ == "__main__":
