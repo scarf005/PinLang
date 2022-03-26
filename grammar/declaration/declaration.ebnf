@@ -1,0 +1,22 @@
+
+# 변수 / 상수 선언
+statement
+    =
+    | function_declaration
+    | declaration_list
+    ;
+
+declaration_list
+    =
+    ",".{@:value_declaration_kinds}
+    ;
+
+value_declaration_kinds
+    =
+    | const_initialization
+    | variable_initialization
+    | variable_declaration
+    ;
+
+#include :: "value.ebnf"
+#include :: "function.ebnf"

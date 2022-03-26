@@ -1,0 +1,12 @@
+function_declaration::PinFunction
+    =
+    identifier:identifier '::'
+    '(' parameter:function_parameter ')'
+    '->' [type:type_specifier]
+    '{' code:code_block '}'
+    ;
+
+function_parameter
+    =
+     ','.{variable_declaration}
+    ;

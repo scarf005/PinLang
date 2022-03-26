@@ -1,9 +1,21 @@
-@@grammar::PIN
+@@grammar::Pin
 
 start
     =
-    {code}
+    {@:code_block END}
     $
+    ;
+
+code_block
+    =
+    '\n'%{single_code}
+    ;
+
+single_code
+    =
+    | NL
+    | @:statement
+    | @:expression
     ;
 
 code
@@ -32,9 +44,8 @@ subtraction::Subtract
     ;
 
 #include :: "pin/grammar/term.ebnf"
-#include :: "pin/grammar/number.ebnf"
-#include :: "pin/grammar/declaration.ebnf"
-#include :: "pin/grammar/type.ebnf"
+#include :: "pin/grammar/declaration/declaration.ebnf"
+#include :: "pin/grammar/token/token.ebnf"
 
 # 인수
 factor
@@ -48,7 +59,3 @@ factor
 NL = /\n+/ ;
 END = /\n/ ;
 
-identifier::str
-    =
-    /[a-zA-Zㄱ-ㅎ가-힣_][a-zA-Z0-9ㄱ-ㅎ가-힣_]*/
-    ;

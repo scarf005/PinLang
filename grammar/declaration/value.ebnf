@@ -1,22 +1,3 @@
-
-# 변수 / 상수 선언
-statement
-    =
-    declaration_list
-    ;
-
-declaration_list
-    =
-    ",".{@:value_declaration_kinds}
-    ;
-
-value_declaration_kinds
-    =
-    | const_initialization
-    | variable_initialization
-    | variable_declaration
-    ;
-
 const_initialization::Const
     =
         identifier:identifier
