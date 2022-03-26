@@ -2,7 +2,9 @@
 
 start
     =
-    {@:expression END} $
+    | variable_declaration_list
+    | {@:expression END}
+    $
     ;
 
 # 표현식
@@ -23,36 +25,18 @@ subtraction::Subtract
     left:expression op:'-' ~ right:term
     ;
 
-# 항
-term
-    =
-    | multiplication
-    | division
-    | factor
-    ;
-
-
-multiplication::Multiply
-    =
-    left:term op:'*' ~ right:factor
-    ;
-
-division::Divide
-    =
-    left:term '/' ~ right:factor
-    ;
+#include :: "pin/grammar/term.ebnf"
+#include :: "pin/grammar/number.ebnf"
+#include :: "pin/grammar/declaration.ebnf"
 
 # 인수
 factor
     =
     | '(' ~ @:expression ')'
     | number
+    | identifier
     ;
 
-number::Number
-    =
-    value:/\d+/
-    ;
 
 NL = /\n+/ ;
 END = /\n/ ;

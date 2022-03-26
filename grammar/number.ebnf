@@ -1,0 +1,22 @@
+number::Number
+    =
+    | bool
+    | float
+    | int
+    ;
+
+bool::bool
+    =
+    | 'true'
+    | 'false'
+    ;
+
+int::int
+    =
+    value:/\d+/
+    ;
+
+float::float
+    =
+    value:/\d+\.\d+/
+    ;

@@ -1,0 +1,19 @@
+
+
+# 항
+term
+    =
+    | multiplication
+    | division
+    | factor
+    ;
+
+multiplication::Multiply
+    =
+    left:term op:'*' ~ right:factor
+    ;
+
+division::Divide
+    =
+    left:term '/' ~ right:factor
+    ;

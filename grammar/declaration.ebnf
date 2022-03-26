@@ -1,0 +1,43 @@
+
+# 변수 / 상수 선언
+declaration
+    =
+    variable_declaration_list
+    ;
+
+variable_declaration_list
+    =
+    ','%{@:variable_declaration_kinds} END
+    ;
+
+variable_declaration_kinds
+    =
+    | variable_initialization
+    | variable_declaration
+    ;
+
+variable_declaration
+    =
+    identifier:identifier ':' type:type_specifier
+    ;
+
+variable_initialization
+    =
+    identifier:identifier ':' [type:type_specifier] '=' expression:expression
+    ;
+
+type_specifier::PinType
+    =
+    type_int
+    ;
+
+type_int
+    =
+    | "i8" | "i16" | "i32" | "i64" | "isize" | "i128"
+    | "u8" | "u16" | "u32" | "u64" | "usize" | "u128"
+    ;
+
+identifier::str
+    =
+    /[a-zA-Zㄱ-ㅎ가-힣_][a-zA-Z0-9ㄱ-ㅎ가-힣_]*/
+    ;

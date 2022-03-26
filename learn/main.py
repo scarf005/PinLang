@@ -59,28 +59,32 @@ func = """
 """
 
 expr = """\
-3 + 5 * ( 10 - 20 )
-(23)
-12
 86 + 84 + 87 / (96 - 46) / 59
 ((((49)))) + ((46))
 76 + 18 + 4 - (98) - 7 / 15
 (((73)))
-(55) - (54) * 55 + 92 - 13 - ((36))
+"""
+"""
+(55) - (false) * 55 + 92 - 13 - ((36))
 (78) - (7 / 56 * 33)
-(81) - 18 * (((8)) * 59 - 14)
-(((89)))
-(59)
+(81) - 18 * (((true)) * 59 - 14)
+(((8.9)))
+(5.1239)
 """
 
 
 def test_variable_declaration():
     ...
+    parse_code("foo: i32 = 2 + 3\n")
+    parse_code("foo: i32 = 2 + 3, bar: i32\n")
+    parse_code("foo: i32 = 10, bar := 20\n")
+    parse_code("foo: i32 = 10, bar := 20, baz: i32\n")
+    parse_code("foo:=10, bar:= foo + 10\n")
     # parse_code(var)
     # parse_code(const)
     # parse_code(enum)
     # parse_code(func)
-    parse_code(expr)
+    # parse_code(expr)
     # for line in expr.splitlines():
     #     parse_code(line + "\n")
 
