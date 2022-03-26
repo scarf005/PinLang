@@ -6,12 +6,15 @@
 /*   By: scarf <youkim@student.42seoul.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 14:51:58 by scarf             #+#    #+#             */
-/*   Updated: 2022/03/26 14:51:59 by scarf            ###   ########.fr       */
+/*   Updated: 2022/03/26 15:58:54 by scarf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIN_H
 # define PIN_H
+
+# include <stdint.h>
+# include <stdbool.h>
 
 typedef char*	t_string;
 

@@ -1,6 +1,7 @@
+#include "pin.h"
+
 int32_t	main(t_string spam, t_string egg)
 {
-spam: str egg: str
-[]
-
+	t_string	spam;
+	t_string	egg;
 }

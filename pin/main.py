@@ -2,7 +2,9 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable
 
-from norm import NormEnum, NormError
+import deal
+
+from norm import NormEnum
 from pin_type import PinType
 from pin_value import PinUnit, PinValue
 
@@ -22,10 +24,9 @@ class PinParam:
     body: list[PinValue] = field(default_factory=list)
 
     def __post_init__(self):
-        if len(self.body) > NormEnum.MAX_NUM_PARAMETERS:
-            raise NormError(
-                f"cannot have more than {NormEnum.MAX_NUM_PARAMETERS} parameters"
-            )
+        assert (
+            len(self.body) <= NormEnum.MAX_NUM_PARAMETERS
+        ), f"cannot have more than {NormEnum.MAX_NUM_PARAMETERS} parameters"
 
     def __param_conversion(self, func: Callable[[PinValue], str]) -> str:
         return "(" + ", ".join(map(func, self.body)) + ")"
@@ -51,13 +52,18 @@ class PinFuncVarDecl:
     variables: list[PinValue] = field(default_factory=list)
 
     def __post_init__(self):
-        if len(self.variables) > NormEnum.MAX_NUM_VARIABLES:
-            raise NormError(
-                f"cannot have more than {NormEnum.MAX_NUM_VARIABLES} variables"
-            )
+        assert (
+            len(self.variables) <= NormEnum.MAX_NUM_VARIABLES
+        ), f"cannot have more than {NormEnum.MAX_NUM_VARIABLES} variables"
 
     def __repr__(self) -> str:
-        return " ".join(map(lambda x: f"{x.name}: {x.type_}", self.variables))
+        return "\n".join([f"  {x.name}: {x.type_}" for x in self.variables])
+
+    @property
+    def to_c(self) -> str:
+        return "\n".join(
+            [f"\t{x.type_.to_c}\t{x.name};" for x in self.variables]
+        )
 
 
 @dataclass(frozen=True)
@@ -70,15 +76,15 @@ class PinFunc:
 
     def __repr__(self) -> str:
         body = f"{self.name} :: fn{self.param} -> {self.returns} {{\n"
-        body += str(self.variables)  # TODO
-        body += str(self.body)  # TODO
+        body += f"{self.variables}\n"  # TODO
+        body += f"{self.body}\n"  # TODO
         body += "\n}\n"
         return body
 
     @property
     def to_c(self) -> str:
         body = f"{self.returns.to_c}\t{self.name}{self.param.to_c}\n{{\n"
-        body += f"{self.variables}\n"  # TODO
+        body += f"{self.variables.to_c}\n"  # TODO
         body += f"{self.body}\n"  # TODO
         body += "\n}\n"
         return body
@@ -88,16 +94,16 @@ hello = PinValue("spam", PinType.STR, "hello")
 world = PinValue("egg", PinType.STR, "world")
 param = PinParam([hello, world])
 vardecl = PinFuncVarDecl([hello, world])
-print(param.to_c)
+# print(param.to_c)
 func = PinFunc(
     name="main", param=param, returns=PinType.I32, variables=vardecl
 )
 
-print(func)
-print(func.to_c)
+# print(func)
+# print(func.to_c)
 
 file = Path("test.c")
-file.write_text(func.to_c)
+file.write_text('#include "pin.h"\n\n' + func.to_c)
 # expression: dict
 
 # test = Macro(name="print!", args=["{hello} {world}"])
