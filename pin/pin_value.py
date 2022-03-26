@@ -1,9 +1,9 @@
 from dataclasses import dataclass, field
+from enum import Enum
 from typing import Any, Type
 
 from norm import NormError
 from pin_type import PinType
-
 
 @dataclass(frozen=True)
 class PinValue:

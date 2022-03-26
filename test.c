@@ -1,7 +1,13 @@
 #include "pin.h"
-
-int32_t	main(t_string spam, t_string egg)
+#include <stdio.h>
+int	main(void)
 {
-	t_string	spam;
-	t_string	egg;
+	int	i;
+
+	i = 0;
+	while (i < 10)
+	{
+		printf("%d\n", i);
+		i++;
+	}
 }

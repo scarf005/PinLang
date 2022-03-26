@@ -1,0 +1,37 @@
+@@grammar::CALC
+
+start
+    =
+    expression $
+    ;
+
+# 표현식
+expression
+    =
+    | left:expression '+' ~ right:term
+    | left:expression '-' ~ right:term
+    | term
+    ;
+
+# 항
+term
+    =
+    | left:term op:'*' ~ right:factor
+    | left:term '/' ~ right:factor
+    | factor
+    ;
+
+# 인수
+factor
+    =
+    | '(' ~ @:expression ')'
+    | number
+    ;
+
+number
+    =
+    /\d+/
+    ;
+
+newlines = {'\n'};
+terminate = '\n' | ';' ;
