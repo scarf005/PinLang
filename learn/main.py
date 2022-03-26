@@ -38,13 +38,12 @@ foo: i32 = 2 + 3
 foo: i32 = 10, bar := 20
 foo: i32 = 10, bar := 20, baz: i32
 foo:=10, bar:= foo + 10
-
 """
 
 const = """
 X :: 3
 Y :: 4
-Z :: 3, Y :: 4
+Z :: 3, Y : u8 : 4
 """
 
 enum = """
@@ -79,7 +78,7 @@ expr = """\
 def test_variable_declaration():
     ...
     parse_code(var)
-    # parse_code(const)
+    parse_code(const)
     # parse_code(enum)
     # parse_code(func)
     # parse_code(expr)

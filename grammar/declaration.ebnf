@@ -2,45 +2,34 @@
 # 변수 / 상수 선언
 statement
     =
-    variable_declaration_list
+    declaration_list
     ;
 
-variable_declaration_list
+declaration_list
     =
-    ",".{@:variable_declaration_kinds}
+    ",".{@:value_declaration_kinds}
     ;
 
-variable_declaration_kinds
+value_declaration_kinds
     =
+    | const_initialization
     | variable_initialization
     | variable_declaration
     ;
 
-variable_declaration
+const_initialization::Const
+    =
+        identifier:identifier
+    ':' [type:type_specifier]
+    ':' expression:expression
+    ;
+
+variable_declaration::Variable
     =
     identifier:identifier ':' type:type_specifier
     ;
 
-variable_initialization
+variable_initialization::Variable
     =
     identifier:identifier ':' [type:type_specifier] '=' expression:expression
-    ;
-
-type_specifier::PinType
-    =
-    | type_bool
-    | type_int
-    ;
-
-type_int
-    =
-    | "i8" | "i16" | "i32" | "i64" | "isize" | "i128"
-    | "u8" | "u16" | "u32" | "u64" | "usize" | "u128"
-    ;
-
-type_bool::bool = "bool" ;
-
-identifier::str
-    =
-    /[a-zA-Zㄱ-ㅎ가-힣_][a-zA-Z0-9ㄱ-ㅎ가-힣_]*/
     ;
