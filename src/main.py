@@ -1,6 +1,18 @@
 from pathlib import Path
+from pprint import pformat, pprint
+from typing import Any
 
+from pygments import highlight
+from pygments.formatters import TerminalFormatter
+from pygments.lexers import PythonLexer
 from termcolor import cprint
+
+
+def pprint_color(obj: Any):
+    print(
+        highlight(pformat(obj, width=10), PythonLexer(), TerminalFormatter())
+    )
+
 
 GRAMMAR = Path("src/resources/smol.ebnf").read_text()
 # GRAMMAR = Path("src/resources/pin.ebnf").read_text()
@@ -22,8 +34,8 @@ parser = tatsu.compile(GRAMMAR)
 def parse_code(code: str):
     ast = parser.parse(code)
     # print(ast)
-    cprint(code, "yellow")
-    cprint(json.dumps(asjson(ast), indent=2), "cyan")
+    cprint(code, "cyan")
+    pprint_color(asjson(ast))
 
 
 var = """
