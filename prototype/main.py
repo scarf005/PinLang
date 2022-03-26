@@ -1,44 +1,17 @@
 from dataclasses import dataclass, field
-from enum import Enum, auto
+from pathlib import Path
 from typing import Any, Callable
 
-
-class PinType(Enum):
-    I8 = "int8_t"
-    I16 = "int16_t"
-    I32 = "int32_t"
-    I64 = "int64_t"
-    U8 = "uint8_t"
-    U16 = "uint16_t"
-    U32 = "uint32_t"
-    U64 = "uint64_t"
-    F32 = "float"
-    F64 = "double"
-    STR = "t_string"
-    BOOL = "bool"
-    UNIT = "void"
-
-    @property
-    def to_c(self) -> str:
-        return self.value
-
-    def __str__(self) -> str:
-        return self.name.lower()
-
-
-@dataclass(frozen=True)
-class PinValue:
-    name: str
-    type_: PinType
-    value: Any
-    const: bool = True
+from norm import NormEnum, NormError
+from pin_type import PinType
+from pin_value import PinUnit, PinValue
 
 
 @dataclass(frozen=True)
 class PinExpression:
     """
     something like a = 3 + 2 * 3
-    pin will ignore after =, C code will handle that
+    Pin will ignore after =, C code will handle that
     """
 
     ...
@@ -49,65 +22,82 @@ class PinParam:
     body: list[PinValue] = field(default_factory=list)
 
     def __post_init__(self):
-        if len(self.body) == 0:
-            body = [PinValue(name="", type_=PinType.UNIT, value="")]
-        elif len(self.body) > 4:
-            raise ValueError("PinParam must have at most 4 values")
+        if len(self.body) > NormEnum.MAX_NUM_PARAMETERS:
+            raise NormError(
+                f"cannot have more than {NormEnum.MAX_NUM_PARAMETERS} parameters"
+            )
 
     def __param_conversion(self, func: Callable[[PinValue], str]) -> str:
         return "(" + ", ".join(map(func, self.body)) + ")"
 
+    @property
+    def is_unit(self) -> bool:
+        return len(self.body) == 0
+
     def __repr__(self) -> str:
+        if self.is_unit:
+            return "unit"
         return self.__param_conversion(lambda x: f"{x.name}: {x.type_}")
 
     @property
     def to_c(self) -> str:
+        if self.is_unit:
+            return "void"
         return self.__param_conversion(lambda x: f"{x.type_.to_c} {x.name}")
-        return "(" + ", ".join([x.to_c_param for x in self.body]) + ")"
 
 
 @dataclass(frozen=True)
-class PinFunction:
+class PinFuncVarDecl:
+    variables: list[PinValue] = field(default_factory=list)
+
+    def __post_init__(self):
+        if len(self.variables) > NormEnum.MAX_NUM_VARIABLES:
+            raise NormError(
+                f"cannot have more than {NormEnum.MAX_NUM_VARIABLES} variables"
+            )
+
+    def __repr__(self) -> str:
+        return " ".join(map(lambda x: f"{x.name}: {x.type_}", self.variables))
+
+
+@dataclass(frozen=True)
+class PinFunc:
     name: str
     param: PinParam = field(default_factory=PinParam)
-    returns: PinType = PinType.UNIT
-    variables: list[PinValue] = field(default_factory=list)
+    returns: PinType | PinUnit = PinUnit()
+    variables: PinFuncVarDecl = field(default_factory=PinFuncVarDecl)
     body: list[PinExpression] = field(default_factory=list)
 
     def __repr__(self) -> str:
         body = f"{self.name} :: fn{self.param} -> {self.returns} {{\n"
+        body += str(self.variables)  # TODO
         body += str(self.body)  # TODO
-        body += "}\n"
+        body += "\n}\n"
         return body
 
     @property
     def to_c(self) -> str:
-        body = f"{self.returns.to_c}\t{self.name}({self.param})\n{{\n"
-        body += str(self.body)  # TODO
-        body += "}\n"
+        body = f"{self.returns.to_c}\t{self.name}{self.param.to_c}\n{{\n"
+        body += f"{self.variables}\n"  # TODO
+        body += f"{self.body}\n"  # TODO
+        body += "\n}\n"
         return body
 
-
-@dataclass
-class PinMacro:
-    name: str
-    args: list[str]
-
-
-"foo := 10"
-"bar :: 20"
 
 hello = PinValue("spam", PinType.STR, "hello")
 world = PinValue("egg", PinType.STR, "world")
 param = PinParam([hello, world])
+vardecl = PinFuncVarDecl([hello, world])
 print(param.to_c)
-func = PinFunction(
-    name="main", param=param, returns=PinType.I32, variables=[hello, world]
+func = PinFunc(
+    name="main", param=param, returns=PinType.I32, variables=vardecl
 )
 
-# print(hello)
 print(func)
-# print(func.to_c())
+print(func.to_c)
+
+file = Path("test.c")
+file.write_text(func.to_c)
 # expression: dict
 
 # test = Macro(name="print!", args=["{hello} {world}"])
