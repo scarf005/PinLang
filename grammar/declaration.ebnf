@@ -1,13 +1,13 @@
 
 # 변수 / 상수 선언
-declaration
+statement
     =
     variable_declaration_list
     ;
 
 variable_declaration_list
     =
-    ','%{@:variable_declaration_kinds} END
+    ",".{@:variable_declaration_kinds}
     ;
 
 variable_declaration_kinds
@@ -28,7 +28,8 @@ variable_initialization
 
 type_specifier::PinType
     =
-    type_int
+    | type_bool
+    | type_int
     ;
 
 type_int
@@ -36,6 +37,8 @@ type_int
     | "i8" | "i16" | "i32" | "i64" | "isize" | "i128"
     | "u8" | "u16" | "u32" | "u64" | "usize" | "u128"
     ;
+
+type_bool::bool = "bool" ;
 
 identifier::str
     =

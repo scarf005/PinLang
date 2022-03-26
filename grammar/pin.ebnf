@@ -2,9 +2,14 @@
 
 start
     =
-    | variable_declaration_list
-    | {@:expression END}
+    {code}
     $
+    ;
+
+code
+    =
+    | {@:statement END}
+    | {@:expression END}
     ;
 
 # 표현식

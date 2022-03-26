@@ -32,10 +32,13 @@ def parse_code(code: str):
 
 
 var = """
-u: u16 = 3
-x: int
-y := 1
-z: i32, y: i8
+foo: i8, bar: u8
+foo: i32 = 2 + 3, bar: i32
+foo: i32 = 2 + 3
+foo: i32 = 10, bar := 20
+foo: i32 = 10, bar := 20, baz: i32
+foo:=10, bar:= foo + 10
+
 """
 
 const = """
@@ -75,12 +78,7 @@ expr = """\
 
 def test_variable_declaration():
     ...
-    parse_code("foo: i32 = 2 + 3\n")
-    parse_code("foo: i32 = 2 + 3, bar: i32\n")
-    parse_code("foo: i32 = 10, bar := 20\n")
-    parse_code("foo: i32 = 10, bar := 20, baz: i32\n")
-    parse_code("foo:=10, bar:= foo + 10\n")
-    # parse_code(var)
+    parse_code(var)
     # parse_code(const)
     # parse_code(enum)
     # parse_code(func)
