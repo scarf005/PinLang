@@ -77,8 +77,8 @@ def test_variable_declaration():
     ...
     # parse_code(val)
     # parse_code(enum)
-    parse_code("3\n")
-    parse_code("mult2 :: fn() -> { }\n")
+    parse_code("3\n3 + 2\n\n")
+    parse_code("\n\nmult2 :: fn() -> { }\n")
     # parse_code(expr)
 
 

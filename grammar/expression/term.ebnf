@@ -13,5 +13,18 @@ multiplication::Multiply
 
 division::Divide
     =
-    left:term '/' ~ right:factor
+    left:term op:'/' ~ right:factor
+    ;
+
+# 인수
+factor
+    =
+    | '(' ~ @:expression ')'
+    | atom
+    ;
+
+atom
+    =
+    | number
+    | identifier
     ;

@@ -1,17 +1,12 @@
 #include :: "term.ebnf"
 
 # 표현식
+expression_instruction
+    =
+    @:expression END
+    ;
+
 expression
-    =
-    assert_not_statement @:expression_list
-    ;
-
-assert_not_statement
-    =
-    !statement_declaration
-    ;
-
-expression_list
     =
     | addition
     | subtraction
@@ -26,12 +21,4 @@ addition::Add
 subtraction::Subtract
     =
     left:expression op:'-' ~ right:term
-    ;
-
-# 인수
-factor
-    =
-    | '(' ~ @:expression ')'
-    | number
-    | identifier
     ;

@@ -9,13 +9,13 @@ start
 
 code_block
     =
-    @+:instruction {END @+:instruction}
+    {instruction}
     ;
 
 instruction
     =
-    | expression
-    | statement
+    | statement_instruction
+    | expression_instruction
     ;
 
 #include :: "pin/grammar/statement/statement.ebnf"

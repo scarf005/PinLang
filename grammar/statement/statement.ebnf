@@ -2,23 +2,30 @@
 #include :: "function.ebnf"
 
 # 변수 / 상수 선언
+statement_instruction
+    =
+    assert_is_statement @:statement END
+    ;
+
+assert_is_statement
+    =
+    &statement_declaration
+    ;
+
 statement
     =
     | function_declaration
     | declaration_list
-    | statement_fail
     ;
 
 statement_declaration = identifier:identifier '::' ;
 
-statement_fail = -> &END;
-
 declaration_list
     =
-    ",".{@:value_declaration_kinds}
+    ",".{@:value_declaration_type}
     ;
 
-value_declaration_kinds
+value_declaration_type
     =
     | const_initialization
     | variable_initialization
