@@ -2,7 +2,7 @@ const_initialization::Const
     =
         identifier:identifier
     ':' [type:type_specifier]
-    ':' expression:expression
+    ':' ~ expression:expression
     ;
 
 variable_declaration::Variable
@@ -12,5 +12,5 @@ variable_declaration::Variable
 
 variable_initialization::Variable
     =
-    identifier:identifier ':' [type:type_specifier] '=' expression:expression
+    identifier:identifier ':' [type:type_specifier] '=' ~ expression:expression
     ;

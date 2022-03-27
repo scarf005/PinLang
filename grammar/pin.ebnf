@@ -2,35 +2,39 @@
 
 start
     =
-    {@:code_block END}
+    instruction
+    #{@:code_block END}
     $
     ;
 
+
 code_block
     =
-    '\n'%{single_code}
+    @:instruction {END @:instruction}
     ;
 
-single_code
+instruction
     =
-    | NL
-    | @:statement
-    | @:expression
-    ;
-
-code
-    =
-    | NL
-    | {@:statement END}
-    | {@:expression END}
+    | expression
+    | statement
     ;
 
 # 표현식
 expression
     =
+    !statement_declaration @:expression_list
+    ;
+
+expression_list
+    =
     | addition
     | subtraction
     | term
+    ;
+
+expression_recovery
+    =
+    ->&statement
     ;
 
 addition::Add

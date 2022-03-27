@@ -1,12 +1,14 @@
+@@keyword :: fn
+
 function_declaration::PinFunction
     =
-    identifier:identifier '::'
-    '(' parameter:function_parameter ')'
+    statement_declaration
+    'fn' '(' [parameter:declaration_list] ')'
     '->' [type:type_specifier]
-    '{' code:code_block '}'
+    '{' [code:code_block] '}'
     ;
 
 function_parameter
     =
-     ','.{variable_declaration}
+    declaration_list
     ;

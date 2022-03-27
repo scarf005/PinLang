@@ -4,7 +4,12 @@ statement
     =
     | function_declaration
     | declaration_list
+    | statement_fail
     ;
+
+statement_declaration = identifier:identifier '::' ;
+
+statement_fail = -> &END;
 
 declaration_list
     =

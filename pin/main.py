@@ -45,11 +45,16 @@ IpAddr :: enum {
 """
 
 func = """
-   spam :: () -> { foo: i32 }
+   spam :: () -> { foo:= 1, bar:= 2
+   3
+    }
+"""
+"""
+   mult2 :: () -> { }
    egg :: () -> i16 {
         foo: i32 = 2 + 3, bar: i32
+        baz := 3
    }
-   mult2 :: (n:i32) -> {}
    add :: (a:i16, b:i16) -> i16 {}
 """
 
@@ -72,7 +77,8 @@ def test_variable_declaration():
     ...
     # parse_code(val)
     # parse_code(enum)
-    parse_code(func)
+    parse_code("3\n")
+    parse_code("mult2 :: fn() -> { }\n")
     # parse_code(expr)
 
 
