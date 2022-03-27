@@ -1,3 +1,6 @@
 #include :: "number.ebnf"
 #include :: "identifier.ebnf"
 #include :: "type.ebnf"
+
+NL = /\n+/ ;
+END = /\n/ ;

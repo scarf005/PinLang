@@ -1,16 +1,15 @@
 @@grammar::Pin
+#@@parseinfo :: True
 
 start
     =
-    instruction
-    #{@:code_block END}
+    code_block
     $
     ;
 
-
 code_block
     =
-    @:instruction {END @:instruction}
+    @+:instruction {END @+:instruction}
     ;
 
 instruction
@@ -19,47 +18,7 @@ instruction
     | statement
     ;
 
-# 표현식
-expression
-    =
-    !statement_declaration @:expression_list
-    ;
-
-expression_list
-    =
-    | addition
-    | subtraction
-    | term
-    ;
-
-expression_recovery
-    =
-    ->&statement
-    ;
-
-addition::Add
-    =
-    left:expression op:'+' ~ right:term
-    ;
-
-subtraction::Subtract
-    =
-    left:expression op:'-' ~ right:term
-    ;
-
-#include :: "pin/grammar/term.ebnf"
-#include :: "pin/grammar/declaration/declaration.ebnf"
+#include :: "pin/grammar/statement/statement.ebnf"
+#include :: "pin/grammar/expression/expression.ebnf"
 #include :: "pin/grammar/token/token.ebnf"
-
-# 인수
-factor
-    =
-    | '(' ~ @:expression ')'
-    | number
-    | identifier
-    ;
-
-
-NL = /\n+/ ;
-END = /\n/ ;
 

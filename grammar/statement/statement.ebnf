@@ -1,3 +1,5 @@
+#include :: "value.ebnf"
+#include :: "function.ebnf"
 
 # 변수 / 상수 선언
 statement
@@ -23,5 +25,3 @@ value_declaration_kinds
     | variable_declaration
     ;
 
-#include :: "value.ebnf"
-#include :: "function.ebnf"
