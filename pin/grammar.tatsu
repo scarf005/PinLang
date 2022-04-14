@@ -1,0 +1,65 @@
+@@grammar::PIN
+
+start
+    =
+    | function_declaration
+    | variable_declaration
+    $
+    ;
+
+expression
+    =
+    | expression '+' term
+    | expression '-' term
+    | term
+    ;
+
+term
+    =
+    | term '*' factor
+    | term '/' factor
+    | factor
+    ;
+
+factor
+    =
+    | '(' expression ')'
+    | number
+    ;
+
+block = '{'  '}' ;
+
+function_declaration
+    =
+    [visibility_specifier] 'fn' ~
+    identifier '(' ')' '->' block END
+    ;
+
+variable_declaration
+    =
+    'let' [mutability_specifier]
+    identifier [type_specifier] '=' expression END
+    ;
+
+
+#SPECIFIERS
+
+visibility_specifier = 'pub' ;
+mutability_specifier = 'mut' ;
+
+type_specifier
+    = ':' type
+    ;
+
+#TOKENS
+
+type
+    =
+    | 'int' | 'i8' | 'i16' | 'i32' | 'i64'
+    | 'uint' | 'u8' | 'u16' | 'u32' | 'u64'
+    ;
+
+number = /\d+/ ;
+identifier = /[a-zA-Z_][a-zA-Z0-9_]*/ ;
+END = /\n/ ;
+NL = /\n+/ ;
