@@ -27,6 +27,41 @@ int add(int a, int b)
 }
 ```
 
+## Member Function
+```rs
+struct String { size: uint, data: char * }
+
+impl String {
+  fn new() -> String
+  fn del() -> None
+  fn len(&self) -> uint
+}
+
+fn main() -> int {
+  let mut a: String = String::new("hello")
+  let size: int = a.len()
+  
+  print!("string size is {size}")
+  String::del(a)
+}
+```
+```c
+struct s_string { size: unsigned int; data: char * };
+struct s_string string__new(const char* from);
+unsigned int string__len(struct s_string);
+void string__del(struct s_string);
+
+int main(void)
+{
+  struct s_string a;
+  int size;
+  
+  a = string__new("hello");
+  size = string__len(a);
+  printf("string size is %d", size);
+  string__del(a);
+}
+```
 ## Loops
 ```rs
 for (0..10) {}
