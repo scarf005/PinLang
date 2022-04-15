@@ -2,12 +2,8 @@
 #include <stdio.h>
 int	main(void)
 {
-	int	i;
-
-	i = 0;
-	while (i < 10)
-	{
-		printf("%d\n", i);
-		i++;
-	}
+	while (1)
+		printf("I'm getting used to this !");
+	system("leaks -zsh");
+	return (0);
 }
