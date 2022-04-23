@@ -21,9 +21,19 @@ variable_declarations_simple = [
 grammar_text = (Path(__file__).parent / "grammar.tatsu").read_text()
 
 test_cases = [
-    "let x = 3\n",
+    "let a = 3\n",
+    "let b : i32 = 4\n",
     "let mut y = 2\n",
-    "fn main() -> {}\n",
+    "let c = if true { 1 } else { 2 }\n",
+    """
+    let a = when 3 {
+        1 -> 1,
+        2 -> 2,
+        else -> 3
+    }
+    """,
+    # "let double = (i) -> {}\n",
+    "let main = () -> {}\n",
 ]
 
 for text in test_cases:

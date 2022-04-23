@@ -2,13 +2,31 @@
 
 start
     =
-    | function_declaration
-    | variable_declaration
+    | statement
+    | expression
     $
+    ;
+
+statement
+    =
+    | variable
+    | expression
+    ;
+
+variable
+    =
+    'let'
+    mutability:mutability_specifier
+    id:identifier
+    [type:type_specifier]
+    '=' expr:expression END
     ;
 
 expression
     =
+    | if_expression
+    | when_expression
+    | function_expression
     | expression '+' term
     | expression '-' term
     | term
@@ -24,42 +42,67 @@ term
 factor
     =
     | '(' expression ')'
+    | atom
+    ;
+
+atom
+    =
     | number
+    | bool
     ;
 
-block = '{'  '}' ;
-
-function_declaration
+#EXPRESSIONS
+@@keyword :: if else when let mut
+if_expression
     =
-    [visibility_specifier] 'fn' ~
-    identifier '(' ')' '->' block END
+    'if' ~ expression block {'else' 'if' expression block} ['else' block]
     ;
 
-variable_declaration
+when_expression
     =
-    'let' [mutability_specifier]
-    identifier [type_specifier] '=' expression END
+    'when' ~ expression '{'
+    { expression '->' when_element ',' }+
+    'else' '->' when_element [',']
+    '}'
     ;
+
+when_element = ( expression | code ) ;
+
+function_expression
+    =
+    #| parameters '->' code
+    parameter '->' [type] block ~
+    ;
+
+#closure = '(' {parameter ','}+ ')' ;
+parameter = '(' ','%{arg} ')';
+arg = identifier type_specifier ['=' expression];
+
+code = block | oneline ;
+block = '{' @:{statement} '}' ;
+oneline = expression END ;
 
 
 #SPECIFIERS
 
-visibility_specifier = 'pub' ;
-mutability_specifier = 'mut' ;
+#visibility_specifier = 'pub' ;
+mutability_specifier = (@:'mut' | @:`const`) ;
 
 type_specifier
-    = ':' type
+    = ':' @:type
     ;
 
 #TOKENS
 
 type
     =
-    | 'int' | 'i8' | 'i16' | 'i32' | 'i64'
-    | 'uint' | 'u8' | 'u16' | 'u32' | 'u64'
+    | 'i8' | 'i16' | 'i32' | 'i64'
+    | 'u8' | 'u16' | 'u32' | 'u64'
+    | 'unit' | 'bool' | 'f32' | 'f64'
     ;
 
 number = /\d+/ ;
-identifier = /[a-zA-Z_][a-zA-Z0-9_]*/ ;
+bool = 'true' | 'false' ;
+identifier = /[a-zA-Z가-힣_][a-zA-Z0-9가-힣_]*/ ;
 END = /\n/ ;
 NL = /\n+/ ;
